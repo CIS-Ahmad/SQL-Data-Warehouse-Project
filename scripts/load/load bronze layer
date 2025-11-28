@@ -30,14 +30,15 @@ AS
 BEGIN
 
     DECLARE 
-			@start_time DATETIME, 
-			@end_time DATETIME,
-			@start_time_for_bronze_layer Datetime,
-			@end_time_for_bronze_layer Datetime;
-
+        @start_time DATETIME, 
+        @end_time DATETIME,
+        @start_time_for_bronze_layer DATETIME,
+        @end_time_for_bronze_layer DATETIME;
 
     BEGIN TRY
-			set @start_time_for_bronze_layer = GETDATE();
+
+        SET @start_time_for_bronze_layer = GETDATE();
+
         PRINT '==================================';
         PRINT '        Loading Bronze Layer';
         PRINT '==================================';
@@ -49,15 +50,16 @@ BEGIN
         ----------------------------------------------------------
         -- CRM: cust_info
         ----------------------------------------------------------
-        
-		SET @start_time = GETDATE();
+        SET @start_time = GETDATE();
 
         PRINT 'Truncate Table : bronze.crm_cust_info';
         TRUNCATE TABLE bronze.crm_cust_info;
 
         PRINT 'Bulk Insert : bronze.crm_cust_info';
+
+        -- TODO: put the full file path for this file: cust_info.csv
         BULK INSERT bronze.crm_cust_info
-        FROM 'D:\Data W.H\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
+        FROM 'cust_info.csv'
         WITH (
             FIRSTROW = 2,
             FIELDTERMINATOR = ',',
@@ -78,8 +80,10 @@ BEGIN
         TRUNCATE TABLE bronze.crm_prd_info;
 
         PRINT 'Bulk Insert : bronze.crm_prd_info';
+
+        -- TODO: put the full file path for this file: prd_info.csv
         BULK INSERT bronze.crm_prd_info
-        FROM 'D:\Data W.H\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
+        FROM 'prd_info.csv'
         WITH (
             FIRSTROW = 2,
             FIELDTERMINATOR = ',',
@@ -100,8 +104,10 @@ BEGIN
         TRUNCATE TABLE bronze.crm_sales_details;
 
         PRINT 'Bulk Insert : bronze.crm_sales_details';
+
+        -- TODO: put the full file path for this file: sales_details.csv
         BULK INSERT bronze.crm_sales_details
-        FROM 'D:\Data W.H\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
+        FROM 'sales_details.csv'
         WITH (
             FIRSTROW = 2,
             FIELDTERMINATOR = ',',
@@ -117,7 +123,6 @@ BEGIN
         PRINT '        Loading ERP Tables';
         PRINT '-----------------------------------';
 
-
         ----------------------------------------------------------
         -- ERP: cust_az12
         ----------------------------------------------------------
@@ -127,8 +132,10 @@ BEGIN
         TRUNCATE TABLE bronze.erp_cust_az12;
 
         PRINT 'Bulk Insert : bronze.erp_cust_az12';
+
+        -- TODO: put the full file path for this file: CUST_AZ12.csv
         BULK INSERT bronze.erp_cust_az12
-        FROM 'D:\Data W.H\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
+        FROM 'CUST_AZ12.csv'
         WITH (
             FIRSTROW = 2,
             FIELDTERMINATOR = ',',
@@ -149,8 +156,10 @@ BEGIN
         TRUNCATE TABLE bronze.erp_loc_a101;
 
         PRINT 'Bulk Insert : bronze.erp_loc_a101';
+
+        -- TODO: put the full file path for this file: LOC_A101.csv
         BULK INSERT bronze.erp_loc_a101
-        FROM 'D:\Data W.H\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv'
+        FROM 'LOC_A101.csv'
         WITH (
             FIRSTROW = 2,
             FIELDTERMINATOR = ',',
@@ -171,8 +180,10 @@ BEGIN
         TRUNCATE TABLE bronze.erp_px_cat_g1v2;
 
         PRINT 'Bulk Insert : bronze.erp_px_cat_g1v2';
+
+        -- TODO: put the full file path for this file: PX_CAT_G1V2.csv
         BULK INSERT bronze.erp_px_cat_g1v2
-        FROM 'D:\Data W.H\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv'
+        FROM 'PX_CAT_G1V2.csv'
         WITH (
             FIRSTROW = 2,
             FIELDTERMINATOR = ',',
@@ -182,11 +193,14 @@ BEGIN
         SET @end_time = GETDATE();
         PRINT 'Load Duration : ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '--------------------';
-		set @end_time_for_bronze_layer = GETDATE();
-       
-    	PRINT '=============================================';
-    	PRINT 'Loading bronze layer is complited ...';
-		PRINT 'Load Duration for bronze layer : ' + CAST(DATEDIFF(SECOND, @start_time_for_bronze_layer, @end_time_for_bronze_layer) AS NVARCHAR) + ' seconds';
+
+
+        SET @end_time_for_bronze_layer = GETDATE();
+
+        PRINT '=============================================';
+        PRINT 'Loading bronze layer is completed ...';
+        PRINT 'Load Duration for bronze layer : ' 
+              + CAST(DATEDIFF(SECOND, @start_time_for_bronze_layer, @end_time_for_bronze_layer) AS NVARCHAR)
         PRINT '=============================================';
 
     END TRY
@@ -200,4 +214,3 @@ BEGIN
     END CATCH;
 
 END;
-GO
