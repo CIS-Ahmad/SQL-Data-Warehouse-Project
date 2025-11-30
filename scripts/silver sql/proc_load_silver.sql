@@ -121,7 +121,7 @@ declare
 				 when 'R' then 'Road'
 				 when 'S' then 'Other Sales'
 				 when 'T' then 'Touring'
-				 else 'n\a' 
+				 else 'n/a' 
 				 end as prd_line,--Map Product line codes to descriptive values
 			cast (prd_start_dt as date) as prd_start_dt ,
 			cast (lead (prd_start_dt)over (Partition by prd_key order by prd_start_dt)-1 
@@ -215,7 +215,7 @@ declare
 
 				case when UPPER(trim(gen)) in('F','FEMALE') then 'Female'
 					 when UPPER(trim(gen)) in('M','MALE') then 'Male'
-					else 'n\a' 
+					else 'n/a' 
 					end as gen
 			from bronze.erp_cust_az12;
 	 
@@ -230,14 +230,14 @@ declare
 		
 				set @start_Load_time = GETDATE();
 
-			print 'truncate table : silver.erp_px_cat_g1v2';
-			truncate table silver.erp_px_cat_g1v2;
-			print 'insert into table : silver.erp_px_cat_g1v2';
+			print 'truncate table : silver.erp_loc_a101';
+			truncate table silver.erp_loc_a101;
+			print 'insert into table : silver.erp_loc_a101';
 			insert into silver.erp_loc_a101(cid,cntry)
 			select
 			replace (cid,'-','')  cid,
 			case when trim(cntry)  in ('US' ,'USA') then 'United States'  
-				 when trim(cntry)  is NULL or cntry='' then 'n\a'
+				 when trim(cntry)  is NULL or cntry='' then 'n/a'
 				 when trim(cntry)= 'DE' then 'Germany'
 				 else trim(cntry)  
 				 end as cntry
@@ -287,5 +287,6 @@ declare
         PRINT '======================================';
     END CATCH;
 end ;
+
 
 
