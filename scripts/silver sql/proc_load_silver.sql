@@ -1,23 +1,29 @@
+
 /* 
-===========================================================
-  Stored Procedure: Load Silver Layer (Bronze -> Silver)
-===========================================================
-⚠ WARNING:
-This procedure TRUNCATES all Silver layer tables before 
-loading data. Running it will DELETE existing Silver data 
-and fully reload it from the Bronze layer.
+===============================================================
+   Stored Procedure: Load Silver Layer (Bronze -> Silver)
+===============================================================
 
 PURPOSE:
-- Cleans, standardizes, and transforms CRM & ERP data.
-- Loads curated data from Bronze schema into Silver schema.
-- Ensures the most recent or corrected records are stored.
-- Applies business rules: 
-    • fixing gender, marital status, product line
-    • validating sales calculations
-    • cleaning invalid dates
-    • standardizing keys and categories
-===========================================================
+    This stored procedure performs the ETL (Extract, Transform, Load)
+    process used to populate the **Silver schema** tables 
+    from the **Bronze schema**.
+
+ACTION PERFORMED:
+    - Truncate Silver tables.
+    - Transform and clean data.
+    - Insert processed data from Bronze tables into Silver tables.
+
+⚠ WARNING:
+    Running this procedure will REMOVE all existing data inside the
+    Silver tables because TRUNCATE TABLE is used before inserting new data.
+    Execute this procedure only when you intend to refresh or rebuild the
+    Silver layer from scratch.
+
+===============================================================
 */
+
+
 create or alter procedure silver.load_silver as
 
 begin
