@@ -2,7 +2,7 @@
 ===========================================================
 Gold Layer Views
 ===========================================================
-Purpose (hidden):
+Purpose :
 -- This script creates the Gold layer views for the Data Warehouse.
 -- It includes dimension tables for products and customers, 
 -- and a fact table for sales, based on the Silver layer.
